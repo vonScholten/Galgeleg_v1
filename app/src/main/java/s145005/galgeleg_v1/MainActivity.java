@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         gamelogic = new Galgelogik();
 
-        game = new Intent(MainActivity.this, GameActivity.class);
-        gameSettings = new Intent(MainActivity.this, SettingsActivity.class);
+        game = new Intent(MainActivity.this, GameActivity.class); //intent for starting game activity
+        gameSettings = new Intent(MainActivity.this, SettingsActivity.class); //intent for starting settings activity
     }
 
     @Override
