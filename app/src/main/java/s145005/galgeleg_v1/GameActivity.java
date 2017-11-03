@@ -27,6 +27,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     String word;
     String used;
 
+    long startTime;
+    long elapsedTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +61,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if (v == newGame){ //start new game
             gamelogic.nulstil(); //reset everything and set a new word
             update(); //update user interface / graphics
-            System.out.println("starting new game done");
+            startTime = System.nanoTime(); //for highscore
+            System.out.println(startTime + ": " + "new game started");
         }
         else if (v == check){ //check if the letter input is part of the word
             word = input.getText().toString(); //input to a string
@@ -81,21 +85,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         if (gamelogic.erSpilletVundet()){ //show this alert dialog if the game is won
             /** source: AndroidElementer / Nordfalk **/
+            elapsedTime = System.nanoTime() - startTime; //take elapsed time
             AlertDialog.Builder alert1 = new AlertDialog.Builder(this);
             alert1.setTitle("Spillet er slut");
             alert1.setMessage("Tillykke du har vundet! ordet var: " + gamelogic.getOrdet());
             alert1.show();
-            System.out.println("the game is won");
+            System.out.println("the game is won" + "elapsed time: " + elapsedTime);
         }
         else if (gamelogic.erSpilletTabt()){ //show this alert dialog if the game is lost
             /** source: AndroidElementer / Nordfalk **/
+            elapsedTime = System.nanoTime() - startTime; //take elapsed time
             AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
             alert2.setTitle("Spillet er slut");
             alert2.setMessage("Surt.. du har tabt :( ordet var: " + gamelogic.getOrdet() );
             alert2.show();
-            System.out.println("the game is lost");
+            System.out.println("the game is lost" + "elapsed time: " + elapsedTime);
         }
-
         System.out.println("update done");
     }
 
