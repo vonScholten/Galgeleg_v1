@@ -61,14 +61,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if (v == newGame){ //start new game
             gamelogic.nulstil(); //reset everything and set a new word
             update(); //update user interface / graphics
+
             startTime = System.nanoTime(); //for highscore
-            System.out.println(startTime + ": " + "new game started");
+
+            System.out.println(startTime + ": " + "new game started"); //log
         }
         else if (v == check){ //check if the letter input is part of the word
             word = input.getText().toString(); //input to a string
             gamelogic.gætBogstav(word); //check input
             update(); //update user interface / graphics
-            System.out.println("checking input done");
+
+            System.out.println("checking input done"); //log
         }
     }
 
@@ -84,22 +87,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         updateImage(); //update image
 
         if (gamelogic.erSpilletVundet()){ //show this alert dialog if the game is won
-            /** source: AndroidElementer / Nordfalk **/
-            elapsedTime = System.nanoTime() - startTime; //take elapsed time
-            AlertDialog.Builder alert1 = new AlertDialog.Builder(this);
-            alert1.setTitle("Spillet er slut");
-            alert1.setMessage("Tillykke du har vundet! ordet var: " + gamelogic.getOrdet());
-            alert1.show();
-            System.out.println("the game is won" + "elapsed time: " + elapsedTime);
+            gameWon();
         }
         else if (gamelogic.erSpilletTabt()){ //show this alert dialog if the game is lost
-            /** source: AndroidElementer / Nordfalk **/
-            elapsedTime = System.nanoTime() - startTime; //take elapsed time
-            AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
-            alert2.setTitle("Spillet er slut");
-            alert2.setMessage("Surt.. du har tabt :( ordet var: " + gamelogic.getOrdet() );
-            alert2.show();
-            System.out.println("the game is lost" + "elapsed time: " + elapsedTime);
+            gameLost();
         }
         System.out.println("update done");
     }
@@ -132,4 +123,31 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    public void gameWon() {
+
+        elapsedTime = System.nanoTime() - startTime; //take elapsed time
+
+        /** Alert dialoge if the game is won (code source: AndroidElementer / Nordfalk) **/
+        AlertDialog.Builder winnerAlert = new AlertDialog.Builder(this);
+        winnerAlert.setTitle("Spillet er slut");
+        winnerAlert.setMessage("Tillykke du har vundet! ordet var: " + gamelogic.getOrdet());
+        winnerAlert.show();
+
+        System.out.println("the game is won" + "elapsed time: " + elapsedTime); //log
+    }
+
+    public void gameLost() {
+
+        elapsedTime = System.nanoTime() - startTime; //take elapsed time
+
+        /** Alert dialoge if the game is lost (code source: AndroidElementer / Nordfalk) **/
+        AlertDialog.Builder losserAlert = new AlertDialog.Builder(this);
+        losserAlert.setTitle("Spillet er slut");
+        losserAlert.setMessage("Surt.. du har tabt :( ordet var: " + gamelogic.getOrdet() );
+        losserAlert.show();
+
+        System.out.println("the game is lost" + "elapsed time: " + elapsedTime); //log
+    }
+
 }
