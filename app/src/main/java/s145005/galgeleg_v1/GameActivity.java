@@ -71,7 +71,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         if (v == newGame){ //start new game
             logic.nulstil(); //reset everything and set a new word
-            update(); //update user interface / graphics
+            update(); //update ui / graphics
 
             startTime = System.nanoTime(); //for taking time
 
@@ -142,6 +142,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         won.putExtra("word_win", logic.getOrdet());
         won.putExtra("attemps", logic.getBrugteBogstaver().size());
+        won.putExtra("score", score);
 
         GameActivity.this.startActivity(won);
         System.out.println("game won activity started");
