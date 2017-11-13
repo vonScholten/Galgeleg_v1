@@ -1,6 +1,7 @@
 package s145005.galgeleg_v1;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,10 +23,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     Button check;
     Button newGame;
 
-    Galgelogik gamelogic; //Galgelogik object
+    Galgelogik logic; //Galgelogik object
 
     String word;
     String used;
+    int score;
 
     Intent won;
     Intent lost;
@@ -38,7 +40,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        gamelogic = new Galgelogik(); //new Galgelogik object
+        logic = new Galgelogik(); //new Galgelogik object
+        Download load = new Download();
+        load.execute();
 
         //Intents
         won = new Intent(GameActivity.this, GameWonActivity.class); //intent for game won
@@ -59,14 +63,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //image
         hangman = (ImageView) findViewById(R.id.imageView);
 
-        update(); //run update on create
+        update(); //run ui update on create
     }
 
     @Override
     public void onClick(View v) {
 
         if (v == newGame){ //start new game
-            gamelogic.nulstil(); //reset everything and set a new word
+            logic.nulstil(); //reset everything and set a new word
             update(); //update user interface / graphics
 
             startTime = System.nanoTime(); //for taking time
@@ -75,7 +79,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if (v == check){ //check if the letter input is part of the word
             word = input.getText().toString(); //input to a string
-            gamelogic.gætBogstav(word); //check input
+            logic.gætBogstav(word); //check input
             update(); //update user interface / graphics
 
             System.out.println("checking input done"); //log
@@ -85,18 +89,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void update(){ //updates the user interface
 
         System.out.println("running update");
-        used = gamelogic.getBrugteBogstaver().toString(); //array of used letters to a string
+        used = logic.getBrugteBogstaver().toString(); //array of used letters to a string
 
-        wordView.setText(gamelogic.getSynligtOrd()); //update wordView with viewable letters
-        attempCount.setText("Antal forsøg: " + gamelogic.getBrugteBogstaver().size()); //update count of wrongs
+        wordView.setText(logic.getSynligtOrd()); //update wordView with viewable letters
+        attempCount.setText("Antal forsøg: " + logic.getBrugteBogstaver().size()); //update count of wrongs
         usedView.setText("Brugte bogstaver: " + used); //update used letters
         input.setText(""); //reset input field
         updateImage(); //update image
 
-        if (gamelogic.erSpilletVundet()){
+        if (logic.erSpilletVundet()){
             gameWon();
         }
-        else if (gamelogic.erSpilletTabt()){ //show this alert dialog if the game is lost
+        else if (logic.erSpilletTabt()){ //show this alert dialog if the game is lost
             gameLost();
         }
         System.out.println("update done");
@@ -106,7 +110,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         System.out.println("updating graphics");
 
-        switch(gamelogic.getAntalForkerteBogstaver()){ //takes count of wrongs
+        switch(logic.getAntalForkerteBogstaver()){ //takes count of wrongs
             case 0:
                 hangman.setImageResource(R.drawable.galge);
                 break;
@@ -132,14 +136,20 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void gameWon() {
-        won.putExtra("wonWord", gamelogic.getOrdet());
+        score = logic.getBrugteBogstaver().size() - logic.getOrdet().length();
+        System.out.println("game is won with score: " + score);
+
+        won.putExtra("word_win", logic.getOrdet());
+        won.putExtra("attemps", logic.getBrugteBogstaver().size());
+
         GameActivity.this.startActivity(won);
         System.out.println("game won activity started");
     }
 
     public void gameLost() {
-        lost.putExtra("lostWord", gamelogic.getOrdet());
+        lost.putExtra("word_lost", logic.getOrdet());
         GameActivity.this.startActivity(lost);
         System.out.println("game lost activity started");
     }
 }
+

@@ -24,7 +24,7 @@ public class GameLostActivity extends AppCompatActivity {
             word = bundle.getString("lostWord");
 
         loserText = (TextView) findViewById(R.id.statusText);
-        loserWord = (TextView) findViewById(R.id.showWord);
+        loserWord = (TextView) findViewById(R.id.showAttemps);
 
         loserWord.setText("Ordet var: " + word);
     }
