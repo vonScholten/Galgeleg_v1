@@ -1,6 +1,8 @@
 package s145005.galgeleg_v1;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,6 +37,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     long startTime;
     long elapsedTime;
 
+    SharedPreferences memo;
+    public static int count;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,12 +68,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         hangman = (ImageView) findViewById(R.id.imageView);
 
         logic.nulstil(); //reset on create
-        used = logic.getBrugteBogstaver().toString(); //array of used letters to a string on create
-        wordView.setText(logic.getSynligtOrd()); //update wordView with viewable letters on create
-        attempCount.setText("Antal forsøg: " + logic.getBrugteBogstaver().size()); //update count of wrongs on create
-        usedView.setText("Brugte bogstaver: " + used); //update used letters on create
-        input.setText(""); //reset input field on create
-        System.out.println(logic.getOrdet()); //info for cheating for testing
+        update();
+        System.err.println(logic.getOrdet()); //info for cheating for testing
+
+        memo = getSharedPreferences("count", Context.MODE_PRIVATE);
+        count = memo.getInt("count", count);
     }
 
     @Override
@@ -148,6 +153,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         won.putExtra("word_win", logic.getOrdet());
         won.putExtra("attemps", logic.getBrugteBogstaver().size());
         won.putExtra("score", score);
+
+        memo = getSharedPreferences("count", Context.MODE_PRIVATE);
+        count = memo.getInt("count", count);
+        System.out.println(count);
+        count += 1;
+
+        SharedPreferences.Editor edit = memo.edit();
+        edit.putInt("count", count);
+        edit.apply();
+
+        System.out.println(count);
 
         GameActivity.this.startActivity(won);
         System.out.println("game won activity started");
