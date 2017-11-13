@@ -41,8 +41,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_game);
 
         logic = new Galgelogik(); //new Galgelogik object
-        Download load = new Download();
-        load.execute();
+        Download load = new Download(); //new Download object
+        load.execute(); //execute AsyncTask: download words from dr
 
         //Intents
         won = new Intent(GameActivity.this, GameWonActivity.class); //intent for game won
@@ -82,7 +82,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             logic.gætBogstav(word); //check input
             update(); //update user interface / graphics
 
-            System.out.println("checking input done"); //log
+            if (logic.erSpilletVundet()){
+                gameWon();
+            }
+            else if (logic.erSpilletTabt()){ //show this alert dialog if the game is lost
+                gameLost();
+            }
+
+            System.out.println("checking input done");
         }
     }
 
@@ -96,14 +103,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         usedView.setText("Brugte bogstaver: " + used); //update used letters
         input.setText(""); //reset input field
         updateImage(); //update image
-
-        if (logic.erSpilletVundet()){
-            gameWon();
-        }
-        else if (logic.erSpilletTabt()){ //show this alert dialog if the game is lost
-            gameLost();
-        }
         System.out.println("update done");
+        System.out.println(logic.getOrdet() + "/n" + logic.getBrugteBogstaver() + "/n" + logic.getAntalForkerteBogstaver()); //info for cheating
     }
 
     public void updateImage(){ //updates gallow graphic
