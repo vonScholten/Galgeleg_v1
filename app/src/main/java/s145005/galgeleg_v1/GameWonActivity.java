@@ -11,9 +11,11 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
 
     String word;
     int attemps;
+    int score;
 
     TextView winnerText;
     TextView showAttemps;
+    TextView showScore;
 
     Button re_turn;
 
@@ -30,15 +32,18 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
         if(data != null) {
             word = data.getString("word");
             attemps = data.getInt("attemps");
+            score = data.getInt("score");
         }
 
         winnerText = (TextView) findViewById(R.id.statusText);
         showAttemps = (TextView) findViewById(R.id.showAttemps);
+        showScore = (TextView) findViewById(R.id.showScore);
 
         re_turn = (Button) findViewById(R.id.returnButton);
         re_turn.setOnClickListener(this);
 
         showAttemps.setText("Du brugte " + attemps + " forsøg"); //show attemps count
+        showScore.setText("Din score blev " + score);
 
         returnHome = new Intent(GameWonActivity.this, MainActivity.class);
     }

@@ -1,11 +1,13 @@
 package s145005.galgeleg_v1;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import static s145005.galgeleg_v1.GameActivity.logic;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -13,13 +15,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button rules;
     Button settings;
     Intent game;
-    Intent gameSettings;
-    Galgelogik gamelogic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        new AsyncTask(){
+            @Override
+            protected Object doInBackground(Object... arg0) {
+                try {
+                    logic.hentOrdFraDr();
+                    return "Ordene blev korrekt hentet fra DR's server";
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "Ordene blev ikke hentet korrekt: "+e;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Object resultat) {
+                System.out.println("resultat: \n" + resultat);
+            }
+        }.execute();
 
         //Buttons
         start = (Button) findViewById(R.id.startGameButton);
@@ -29,10 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         settings = (Button) findViewById(R.id.settingsButton);
         settings.setOnClickListener(this);
 
-        gamelogic = new Galgelogik();
-
         game = new Intent(MainActivity.this, GameActivity.class); //intent for starting game activity
-        gameSettings = new Intent(MainActivity.this, SettingsActivity.class); //intent for starting settings activity
     }
 
     @Override
@@ -48,10 +63,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             rulesDialog.show();
             System.out.println("showing rules dialog");
         }
+        /*
         else if (v == settings){
             MainActivity.this.startActivity(gameSettings);
             System.out.println("settings activity started");
         }
-
+        */
     }
 }

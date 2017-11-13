@@ -23,7 +23,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     Button check;
     Button newGame;
 
-    Galgelogik logic; //Galgelogik object
+    public static Galgelogik logic; //Galgelogik object
 
     String word;
     String used;
@@ -41,8 +41,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_game);
 
         logic = new Galgelogik(); //new Galgelogik object
-        Download load = new Download(); //new Download object
-        load.execute(); //execute AsyncTask: download words from dr
 
         //Intents
         won = new Intent(GameActivity.this, GameWonActivity.class); //intent for game won
@@ -63,6 +61,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //image
         hangman = (ImageView) findViewById(R.id.imageView);
 
+        logic.nulstil(); //reset on create
         update(); //run ui update on create
     }
 
@@ -71,6 +70,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         if (v == newGame){ //start new game
             logic.nulstil(); //reset everything and set a new word
+            System.out.println(logic.getOrdet()); //info for cheating
+
             update(); //update ui / graphics
 
             startTime = System.nanoTime(); //for taking time
@@ -104,7 +105,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         input.setText(""); //reset input field
         updateImage(); //update image
         System.out.println("update done");
-        System.out.println(logic.getOrdet() + "/n" + logic.getBrugteBogstaver() + "/n" + logic.getAntalForkerteBogstaver()); //info for cheating
+        System.out.println(logic.getOrdet()); //info for cheating
     }
 
     public void updateImage(){ //updates gallow graphic
