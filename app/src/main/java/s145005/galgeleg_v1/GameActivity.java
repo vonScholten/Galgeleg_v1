@@ -1,6 +1,6 @@
 package s145005.galgeleg_v1;
 
-import android.support.v7.app.AlertDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +27,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     String word;
     String used;
 
+    Intent won;
+    Intent lost;
+
     long startTime;
     long elapsedTime;
 
@@ -36,6 +39,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_game);
 
         gamelogic = new Galgelogik(); //new Galgelogik object
+
+        //Intents
+        won = new Intent(GameActivity.this, GameWonActivity.class); //intent for game won
+        lost = new Intent(GameActivity.this, GameLostActivity.class); //intent for game lost
 
         //buttons on click listener
         check = (Button) findViewById(R.id.CheckButton); //check letter input
@@ -62,7 +69,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             gamelogic.nulstil(); //reset everything and set a new word
             update(); //update user interface / graphics
 
-            startTime = System.nanoTime(); //for highscore
+            startTime = System.nanoTime(); //for taking time
 
             System.out.println(startTime + ": " + "new game started"); //log
         }
@@ -86,7 +93,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         input.setText(""); //reset input field
         updateImage(); //update image
 
-        if (gamelogic.erSpilletVundet()){ //show this alert dialog if the game is won
+        if (gamelogic.erSpilletVundet()){
             gameWon();
         }
         else if (gamelogic.erSpilletTabt()){ //show this alert dialog if the game is lost
@@ -125,29 +132,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void gameWon() {
-
-        elapsedTime = System.nanoTime() - startTime; //take elapsed time
-
-        /** Alert dialoge if the game is won (code source: AndroidElementer / Nordfalk) **/
-        AlertDialog.Builder winnerAlert = new AlertDialog.Builder(this);
-        winnerAlert.setTitle("Spillet er slut");
-        winnerAlert.setMessage("Tillykke du har vundet! ordet var: " + gamelogic.getOrdet());
-        winnerAlert.show();
-
-        System.out.println("the game is won" + "elapsed time: " + elapsedTime); //log
+        won.putExtra("wonWord", gamelogic.getOrdet());
+        GameActivity.this.startActivity(won);
+        System.out.println("game won activity started");
     }
 
     public void gameLost() {
-
-        elapsedTime = System.nanoTime() - startTime; //take elapsed time
-
-        /** Alert dialoge if the game is lost (code source: AndroidElementer / Nordfalk) **/
-        AlertDialog.Builder losserAlert = new AlertDialog.Builder(this);
-        losserAlert.setTitle("Spillet er slut");
-        losserAlert.setMessage("Surt.. du har tabt :( ordet var: " + gamelogic.getOrdet() );
-        losserAlert.show();
-
-        System.out.println("the game is lost" + "elapsed time: " + elapsedTime); //log
+        lost.putExtra("lostWord", gamelogic.getOrdet());
+        GameActivity.this.startActivity(lost);
+        System.out.println("game lost activity started");
     }
-
 }
