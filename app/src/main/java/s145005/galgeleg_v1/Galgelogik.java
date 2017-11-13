@@ -152,8 +152,8 @@ public class Galgelogik {
             replaceAll("&oslash;", "ø"). // erstat HTML-tegn
             replaceAll("&#229;", "å"). // erstat HTML-tegn
             replaceAll("[^a-zæøå]", " "). // fjern tegn der ikke er bogstaver
-            replaceAll(" [a-zæøå] "," "). // fjern 1-bogstavsord
-            replaceAll(" [a-zæøå][a-zæøå] "," "); // fjern 2-bogstavsord
+            replaceAll(" [a-zæøå] ", " "). // fjern 1-bogstavsord
+            replaceAll(" [a-zæøå][a-zæøå] ", " "); // fjern 2-bogstavsord
 
     System.out.println("data = " + data);
     System.out.println("data = " + Arrays.asList(data.split("\\s+")));
@@ -162,4 +162,9 @@ public class Galgelogik {
 
     System.out.println("muligeOrd = " + muligeOrd);
     nulstil();
-  }}
+  }
+
+  public ArrayList<String> getMuligeOrd() {
+    return muligeOrd;
+  }
+}

@@ -23,7 +23,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     Button check;
     Button newGame;
 
-    public static Galgelogik logic; //Galgelogik object
+    public static Galgelogik logic = new Galgelogik(); //Galgelogik object
 
     String word;
     String used;
@@ -40,7 +40,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        logic = new Galgelogik(); //new Galgelogik object
+        System.out.println(logic.getMuligeOrd());
 
         //Intents
         won = new Intent(GameActivity.this, GameWonActivity.class); //intent for game won
@@ -62,7 +62,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         hangman = (ImageView) findViewById(R.id.imageView);
 
         logic.nulstil(); //reset on create
-        update(); //run ui update on create
+        used = logic.getBrugteBogstaver().toString(); //array of used letters to a string on create
+        wordView.setText(logic.getSynligtOrd()); //update wordView with viewable letters on create
+        attempCount.setText("Antal forsøg: " + logic.getBrugteBogstaver().size()); //update count of wrongs on create
+        usedView.setText("Brugte bogstaver: " + used); //update used letters on create
+        input.setText(""); //reset input field on create
+        System.out.println(logic.getOrdet()); //info for cheating for testing
     }
 
     @Override
@@ -98,7 +103,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         System.out.println("running update");
         used = logic.getBrugteBogstaver().toString(); //array of used letters to a string
-
         wordView.setText(logic.getSynligtOrd()); //update wordView with viewable letters
         attempCount.setText("Antal forsøg: " + logic.getBrugteBogstaver().size()); //update count of wrongs
         usedView.setText("Brugte bogstaver: " + used); //update used letters
