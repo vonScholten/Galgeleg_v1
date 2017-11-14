@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         start.setOnClickListener(this);
         rules = (Button) findViewById(R.id.rulesButton);
         rules.setOnClickListener(this);
-        highscoreButton = (Button) findViewById(R.id.highscoreButton);
+        highscoreButton = (Button) findViewById(R.id.higescoreButton);
         highscoreButton.setOnClickListener(this);
 
         //TextViews
