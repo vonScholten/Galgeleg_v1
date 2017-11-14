@@ -2,7 +2,6 @@ package s145005.galgeleg_v1;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import static s145005.galgeleg_v1.GameActivity.logic;
-import static s145005.galgeleg_v1.GameActivity.count;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,12 +18,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button start;
     Button rules;
-    Button settings;
+    Button highscoreButton;
 
     Intent game;
     Intent highscore;
 
-    SharedPreferences memo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +34,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             protected Object doInBackground(Object... arg0) {
                 try {
                     logic.hentOrdFraDr();
-                    return "Ordene blev korrekt hentet fra DR's server";
+                    return "Transfer of words from DR's server was a SUCCESS";
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return "Ordene blev ikke hentet korrekt: "+e;
+                    return "Transfer of words from DR's server FAILED: "+e;
                 }
             }
 
             @Override
-            protected void onPostExecute(Object resultat) {
-                System.out.println("resultat: \n" + resultat);
+            protected void onPostExecute(Object result) {
+                System.out.println("result: \n" + result);
             }
         }.execute();
 
@@ -55,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         start.setOnClickListener(this);
         rules = (Button) findViewById(R.id.rulesButton);
         rules.setOnClickListener(this);
-        settings = (Button) findViewById(R.id.settingsButton);
-        settings.setOnClickListener(this);
+        highscoreButton = (Button) findViewById(R.id.highscoreButton);
+        highscoreButton.setOnClickListener(this);
 
         //TextViews
         textView = (TextView) findViewById(R.id.WelcomeText);
@@ -64,11 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Intents
         game = new Intent(MainActivity.this, GameActivity.class); //intent for starting game activity
         highscore = new Intent(MainActivity.this, HighscoreActivity.class); //intent for starting highscore activity
-
-        memo = getSharedPreferences("count", Context.MODE_PRIVATE);
-        memo.getInt("count", count);
-        textView.setText("Antal rigtige ord: " + count);
-
     }
 
     @Override
@@ -77,23 +69,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MainActivity.this.startActivity(game);
             System.out.println("game activity startet");
         }
-        else if (v == rules){ //TO-DO: rework til highscore and add rules in settings
+        else if (v == rules){
             AlertDialog.Builder rulesDialog = new AlertDialog.Builder(this);
             rulesDialog.setTitle("Regler");
-            rulesDialog.setMessage("Meh..");
+            rulesDialog.setMessage("Hvad skal der være her?");
             rulesDialog.show();
-            System.out.println("showing highscore dialog");
+            System.out.println("showing rules dialog");
         }
-        else if (v == settings){
+        else if (v == highscoreButton){
             MainActivity.this.startActivity(highscore);
             System.out.println("highscore activity started");
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        textView.setText("Antal rigtige ord " + count);
-
     }
 }

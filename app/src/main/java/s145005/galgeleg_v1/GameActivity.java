@@ -2,8 +2,6 @@ package s145005.galgeleg_v1;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
+
+    public static Galgelogik logic = new Galgelogik(); //Galgelogik object
 
     ImageView hangman;
 
@@ -25,8 +25,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     Button check;
     Button newGame;
 
-    public static Galgelogik logic = new Galgelogik(); //Galgelogik object
-
     String word;
     String used;
     int score;
@@ -37,16 +35,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     long startTime;
     long elapsedTime;
 
-    SharedPreferences memo;
-    public static int count;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        System.out.println(logic.getMuligeOrd());
+        System.out.println(logic.getMuligeOrd()); //prints a list of possible words
 
         //Intents
         won = new Intent(GameActivity.this, GameWonActivity.class); //intent for game won
@@ -65,13 +59,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         input = (EditText) findViewById(R.id.LetterInputTextEdit); //letter input
 
         //image
-        hangman = (ImageView) findViewById(R.id.imageView);
+        hangman = (ImageView) findViewById(R.id.imageView); //hangman graphic
 
         logic.nulstil(); //reset on create
-        update();
-
-        memo = getSharedPreferences("count", Context.MODE_PRIVATE);
-        count = memo.getInt("count", count);
+        update(); //update ui on create
     }
 
     @Override
@@ -106,13 +97,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void update(){ //updates the user interface
 
         System.out.println("running update");
+
         used = logic.getBrugteBogstaver().toString(); //array of used letters to a string
         wordView.setText(logic.getSynligtOrd()); //update wordView with viewable letters
         attempCount.setText("Antal forsøg: " + logic.getBrugteBogstaver().size()); //update count of wrongs
         usedView.setText("Brugte bogstaver: " + used); //update used letters
         input.setText(""); //reset input field
         updateImage(); //update image
+
         System.out.println("update done");
+
         System.out.println(logic.getOrdet()); //info for cheating
     }
 
@@ -155,17 +149,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         won.putExtra("word_win", logic.getOrdet());
         won.putExtra("attemps", logic.getBrugteBogstaver().size());
         won.putExtra("score", score);
-
-        memo = getSharedPreferences("count", Context.MODE_PRIVATE);
-        count = memo.getInt("count", count);
-        System.out.println(count);
-        count += 1;
-
-        SharedPreferences.Editor edit = memo.edit();
-        edit.putInt("count", count);
-        edit.apply();
-
-        System.out.println(count);
 
         GameActivity.this.startActivity(won);
         System.out.println("game won activity started");
