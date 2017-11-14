@@ -23,10 +23,10 @@ public class GameLostActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_lost);
 
-        Bundle data = getIntent().getExtras();
+        Bundle data = getIntent().getExtras(); //get the bundle
 
-        if(data != null) {
-            word = data.getString("word_lost");
+        if(data != null) { //if the bundle is not empty
+            word = data.getString("word_lost"); //get the string with keyword
         }
 
         loserText = (TextView) findViewById(R.id.statusText);
@@ -37,13 +37,13 @@ public class GameLostActivity extends AppCompatActivity implements View.OnClickL
 
         returnHome = new Intent(GameLostActivity.this, MainActivity.class);
 
-        word_lost.setText("Ordet var: " + word);
+        word_lost.setText("Ordet var: " + word); //show word
     }
 
     @Override
     public void onClick(View v) {
 
-        if(v == re_turn) {
+        if(v == re_turn) { //this is for returning to MainActivity
             GameLostActivity.this.startActivity(returnHome);
             System.out.println("return from GameLostActivity to MainActivity");
         }

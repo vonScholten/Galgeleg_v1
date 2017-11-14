@@ -29,21 +29,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new AsyncTask(){
+        new AsyncTask(){ //fetch words from DR's server this is a nested class
             @Override
-            protected Object doInBackground(Object... arg0) {
-                try {
+            protected Object doInBackground(Object... arg0) { //download words in background thread
+                try { //try to fetch words with a Galgelogik method
                     logic.hentOrdFraDr();
-                    return "Transfer of words from DR's server was a SUCCESS";
-                } catch (Exception e) {
+                    return "Transfer of words from DR's server was a SUCCESS"; //success message
+                } catch (Exception e) { //if it somehow unable to fetch (may be bad connection)
                     e.printStackTrace();
-                    return "Transfer of words from DR's server FAILED: "+e;
+                    return "Transfer of words from DR's server FAILED: "+e; //fail message
                 }
             }
 
             @Override
-            protected void onPostExecute(Object result) {
-                System.out.println("result: \n" + result);
+            protected void onPostExecute(Object result) { //when background is done run this
+                System.out.println("result: \n" + result); //prints results to log
+                // TODO: make a onscreen message
             }
         }.execute();
 
@@ -65,18 +66,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v == start){
+        if (v == start){ //starting game intent (the hangman game)
             MainActivity.this.startActivity(game);
             System.out.println("game activity startet");
         }
-        else if (v == rules){
+        else if (v == rules){ //a dialog box
             AlertDialog.Builder rulesDialog = new AlertDialog.Builder(this);
             rulesDialog.setTitle("Regler");
             rulesDialog.setMessage("Hvad skal der være her?");
             rulesDialog.show();
             System.out.println("showing rules dialog");
         }
-        else if (v == highscoreButton){
+        else if (v == highscoreButton){ //starting highscore intent
             MainActivity.this.startActivity(highscore);
             System.out.println("highscore activity started");
         }

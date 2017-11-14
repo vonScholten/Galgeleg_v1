@@ -139,28 +139,29 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void gameWon() {
+    public void gameWon() { //method for if game is won
         String log_won = "game won \n" + "word: " + logic.getOrdet() + "\n" + "score: " + score;
         System.out.println(log_won);
-        score = logic.getOrdet().length() - logic.getAntalForkerteBogstaver();
 
-        System.out.println("score: " + score +"\n");
+        score = logic.getOrdet().length() - logic.getAntalForkerteBogstaver(); //calculate score
 
+        //store in intents bundle for use in GameWonActivity
         won.putExtra("word_win", logic.getOrdet());
         won.putExtra("attemps", logic.getBrugteBogstaver().size());
         won.putExtra("score", score);
 
-        GameActivity.this.startActivity(won);
+        GameActivity.this.startActivity(won); //starting won intent
         System.out.println("game won activity started");
     }
 
-    public void gameLost() {
+    public void gameLost() { //method for if game is won
         String log_lost = "game won \n" + "word: " + logic.getOrdet() + "\n" + "score: " + score;
         System.out.println(log_lost);
 
+        //store in intents bundle for use in GameLostActivity
         lost.putExtra("word_lost", logic.getOrdet());
 
-        GameActivity.this.startActivity(lost);
+        GameActivity.this.startActivity(lost); //starting lost intent
         System.out.println("game lost activity started");
     }
 }

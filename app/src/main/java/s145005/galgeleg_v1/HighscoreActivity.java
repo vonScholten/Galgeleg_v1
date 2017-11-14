@@ -31,23 +31,28 @@ public class HighscoreActivity extends AppCompatActivity implements View.OnClick
 
         returnHome = new Intent(HighscoreActivity.this, MainActivity.class);
 
+        //get and fetch data with PreferenceManager
         SharedPreferences sharedScore = PreferenceManager.getDefaultSharedPreferences(this);
 
-        count_win = sharedScore.getInt("count_win", 0);
-        showTest.setText("Highscore: " + count_win);
+        count_win = sharedScore.getInt("count_win", 0); //fetch count of wins
+        showTest.setText("Highscore: antal vundne ord: " + count_win + " (lifetime)"); //show count in a textview
+
+        //TODO: add loses count and score count
+        //TODO: add af list
+        //TODO: add reset of score counts (maybe in settings)
     }
 
     @Override
     public void onClick(View v) {
 
-        if (v == re_turn) {
+        if (v == re_turn) { //this is for returning to MainActivity
             HighscoreActivity.this.startActivity(returnHome);
             System.out.println("return from GameWonActivity to MainActivity");
         }
     }
 
     @Override
-    public void onResume() {
+    public void onResume() { //resume counting wins - build in stuff
         super.onResume();
         showTest.setText("Highscore: " + count_win);
     }

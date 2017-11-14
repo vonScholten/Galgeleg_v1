@@ -30,12 +30,12 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_won);
 
-        Bundle data = getIntent().getExtras();
+        Bundle data = getIntent().getExtras(); //get bundle
 
-        if(data != null) {
-            word = data.getString("word_won");
-            attemps = data.getInt("attemps");
-            score = data.getInt("score");
+        if(data != null) { //if the bundle is not empty
+            word = data.getString("word_won"); //get winning word with keyword
+            attemps = data.getInt("attemps"); //get amount off attempts..
+            score = data.getInt("score"); //get calculated score..
         }
 
         winnerText = (TextView) findViewById(R.id.statusText);
@@ -50,15 +50,17 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
 
         returnHome = new Intent(GameWonActivity.this, MainActivity.class);
 
+        // Saving and fetching data with PreferenceManager
         SharedPreferences sharedScore = PreferenceManager.getDefaultSharedPreferences(this);
 
+        //get the count of wins and add one
         count_win = sharedScore.getInt("count_win", 0) + 1;
-        sharedScore.edit().putInt("count_win", count_win).commit();
+        sharedScore.edit().putInt("count_win", count_win).commit(); //store: put and commit to pref.
     }
 
     @Override
     public void onClick(View v) {
-        if(v == re_turn){
+        if(v == re_turn){ //this is for returning to MainActivity
             GameWonActivity.this.startActivity(returnHome);
             System.out.println("return from GameWonActivity to MainActivity");
         }
