@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button settings;
 
     Intent game;
+    Intent highscore;
 
     SharedPreferences memo;
 
@@ -60,7 +61,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //TextViews
         textView = (TextView) findViewById(R.id.WelcomeText);
 
+        //Intents
         game = new Intent(MainActivity.this, GameActivity.class); //intent for starting game activity
+        highscore = new Intent(MainActivity.this, HighscoreActivity.class); //intent for starting highscore activity
 
         memo = getSharedPreferences("count", Context.MODE_PRIVATE);
         memo.getInt("count", count);
@@ -81,12 +84,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             rulesDialog.show();
             System.out.println("showing highscore dialog");
         }
-        /*
         else if (v == settings){
-            MainActivity.this.startActivity(gameSettings);
-            System.out.println("settings activity started");
+            MainActivity.this.startActivity(highscore);
+            System.out.println("highscore activity started");
         }
-        */
     }
 
     @Override

@@ -1,6 +1,8 @@
 package s145005.galgeleg_v1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +14,8 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
     String word;
     int attemps;
     int score;
+
+    public static int countB;
 
     TextView winnerText;
     TextView showAttemps;
@@ -46,6 +50,12 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
         showScore.setText("Din score blev " + score);
 
         returnHome = new Intent(GameWonActivity.this, MainActivity.class);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.getInt("countB", 0);
+        countB = countB + 1;
+        preferences.edit().putInt("countB", countB).commit();
+
     }
 
     @Override
