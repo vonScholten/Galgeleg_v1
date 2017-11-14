@@ -23,6 +23,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Intent game;
     Intent highscore;
 
+    /**
+     * Frederik von Scholten, s145005
+     *
+     * Kilder til kode!
+     * Jeg har benyttet stumper af kode fra undervisningen samt fra Android Elementer (Nordfalk)
+     * Galgelogik, GalgelegTest & BenytGalgelogik er den vi har fået af underviser
+     * AsyncTask & PreferenceManager: Lektion 04 Br.Int.
+     *
+     * @param savedInstanceState
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
