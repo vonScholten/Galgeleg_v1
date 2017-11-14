@@ -23,11 +23,11 @@ public class GameLostActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_lost);
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
+        Bundle data = getIntent().getExtras();
 
-        if(bundle != null)
-            word = bundle.getString("lostWord");
+        if(data != null) {
+            word = data.getString("word_lost");
+        }
 
         loserText = (TextView) findViewById(R.id.statusText);
         word_lost = (TextView) findViewById(R.id.showAttemps);

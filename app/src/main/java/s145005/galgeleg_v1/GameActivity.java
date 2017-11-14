@@ -69,7 +69,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         logic.nulstil(); //reset on create
         update();
-        System.err.println(logic.getOrdet()); //info for cheating for testing
 
         memo = getSharedPreferences("count", Context.MODE_PRIVATE);
         count = memo.getInt("count", count);
@@ -147,8 +146,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void gameWon() {
-        score = logic.getBrugteBogstaver().size() - logic.getOrdet().length();
-        System.out.println("game is won with score: " + score);
+        String log_won = "game won \n" + "word: " + logic.getOrdet() + "\n" + "score: " + score;
+        System.out.println(log_won);
+        score = logic.getOrdet().length() - logic.getAntalForkerteBogstaver();
+
+        System.out.println("score: " + score +"\n");
 
         won.putExtra("word_win", logic.getOrdet());
         won.putExtra("attemps", logic.getBrugteBogstaver().size());
@@ -170,7 +172,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void gameLost() {
+        String log_lost = "game won \n" + "word: " + logic.getOrdet() + "\n" + "score: " + score;
+        System.out.println(log_lost);
+
         lost.putExtra("word_lost", logic.getOrdet());
+
         GameActivity.this.startActivity(lost);
         System.out.println("game lost activity started");
     }

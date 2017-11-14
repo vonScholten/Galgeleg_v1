@@ -15,7 +15,7 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
     int attemps;
     int score;
 
-    public static int countB;
+    public static int count_win;
 
     TextView winnerText;
     TextView showAttemps;
@@ -30,11 +30,10 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_won);
 
-        //Intent in = getIntent();
         Bundle data = getIntent().getExtras();
 
         if(data != null) {
-            word = data.getString("word");
+            word = data.getString("word_won");
             attemps = data.getInt("attemps");
             score = data.getInt("score");
         }
@@ -51,11 +50,10 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
 
         returnHome = new Intent(GameWonActivity.this, MainActivity.class);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        preferences.getInt("countB", 0);
-        countB = countB + 1;
-        preferences.edit().putInt("countB", countB).commit();
+        SharedPreferences sharedScore = PreferenceManager.getDefaultSharedPreferences(this);
 
+        count_win = sharedScore.getInt("count_win", 0) + 1;
+        sharedScore.edit().putInt("count_win", count_win).commit();
     }
 
     @Override
