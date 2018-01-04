@@ -152,6 +152,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         GameActivity.this.startActivity(won); //starting won intent
         System.out.println("game won activity started");
+        finish();
     }
 
     public void gameLost() { //method for if game is won
@@ -163,6 +164,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         GameActivity.this.startActivity(lost); //starting lost intent
         System.out.println("game lost activity started");
+        finish();
     }
 }
 

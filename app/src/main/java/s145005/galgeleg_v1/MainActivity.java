@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v == start){ //starting game intent (the hangman game)
             MainActivity.this.startActivity(game);
             System.out.println("game activity startet");
+            finish();
         }
         else if (v == rules){ //a dialog box
             AlertDialog.Builder rulesDialog = new AlertDialog.Builder(this);
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if (v == highscoreButton){ //starting highscore intent
             MainActivity.this.startActivity(highscore);
             System.out.println("highscore activity started");
+            finish();
         }
     }
 }
