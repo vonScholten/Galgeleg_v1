@@ -2,11 +2,17 @@ package s145005.galgeleg_v1;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import static s145005.galgeleg_v1.GameActivity.logic;
 
@@ -15,12 +21,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView textView;
 
     Button start;
-    Button wordlistButton;
     Button highscoreButton;
+
+    ToggleButton gamemode;
 
     Intent game;
     Intent highscore;
     Intent wordlist;
+
+    AlertDialog select;
 
     /**
      * Frederik von Scholten, s145005
@@ -60,10 +69,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Buttons
         start = (Button) findViewById(R.id.startGameButton);
         start.setOnClickListener(this);
-        wordlistButton = (Button) findViewById(R.id.wordListButton);
-        wordlistButton.setOnClickListener(this);
         highscoreButton = (Button) findViewById(R.id.higescoreButton);
         highscoreButton.setOnClickListener(this);
+
+        //switches
+        gamemode = (ToggleButton) findViewById(R.id.gamemode1);
 
         //TextViews
         textView = (TextView) findViewById(R.id.WelcomeText);
@@ -77,24 +87,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v == start){ //starting game intent (the hangman game)
-            MainActivity.this.startActivity(game);
-            System.out.println("game activity startet");
-            finish();
-        }
-        else if (v == wordlistButton){ //a dialog box
-            /*
-            AlertDialog.Builder rulesDialog = new AlertDialog.Builder(this);
-            rulesDialog.setTitle("Regler");
-            rulesDialog.setMessage("Hvad skal der være her?");
-            rulesDialog.show();
-            */
-            MainActivity.this.startActivity(wordlist);
-            System.out.println("showing wordlistButton");
+
+            if (gamemode.isChecked()){
+                wordSelect();
+            }
+            else {
+                MainActivity.this.startActivity(game);
+                logic.nulstil();
+            }
         }
         else if (v == highscoreButton){ //starting highscore intent
             MainActivity.this.startActivity(highscore);
             System.out.println("highscore activity started");
             finish();
         }
+    }
+
+    public void wordSelect() {
+        select = new AlertDialog.Builder(this).create();
+        select.setCancelable(true);
+        select.setTitle("Vælg ord");
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        ListView listView = new ListView(this);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                logic.valgtOrd(pos);
+                MainActivity.this.startActivity(game);
+                select.dismiss();
+            }
+        });
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1,logic.getMuligeOrd());
+        listView.setAdapter(adapter);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        layout.addView(listView);
+        select.setView(layout);
+        select.show();
     }
 }
