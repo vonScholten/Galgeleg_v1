@@ -46,13 +46,13 @@
         app:layout_constraintTop_toBottomOf="@+id/startGameButton" />
 
     <Button
-        android:id="@+id/rulesButton"
+        android:id="@+id/wordListButton"
         android:layout_width="80dp"
         android:layout_height="36dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="Regler"
+        android:text="Vælg ord"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/higescoreButton" />

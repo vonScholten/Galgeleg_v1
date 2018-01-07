@@ -1,6 +1,5 @@
 package s145005.galgeleg_v1;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,21 +46,20 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         lost = new Intent(GameActivity.this, GameLostActivity.class); //intent for game lost
 
         //buttons on click listener
-        check = (Button) findViewById(R.id.CheckButton); //check letter input
+        check = (Button) findViewById(R.id.checkButton); //check letter input
         check.setOnClickListener(this);
         newGame = (Button) findViewById(R.id.NewGameButton); //start new game
         newGame.setOnClickListener(this);
 
         //text view/edit
-        wordView = (TextView) findViewById(R.id.WordTextView); //word
-        usedView = (TextView) findViewById(R.id.UsedLettersView); //used letters
-        attempCount = (TextView) findViewById(R.id.AttempCount); //count of used letters
-        input = (EditText) findViewById(R.id.LetterInputTextEdit); //letter input
+        wordView = (TextView) findViewById(R.id.wordTextView); //word
+        usedView = (TextView) findViewById(R.id.usedLettersView); //used letters
+        attempCount = (TextView) findViewById(R.id.attempCount); //count of used letters
+        input = (EditText) findViewById(R.id.letterInputTextEdit); //letter input
 
         //image
         hangman = (ImageView) findViewById(R.id.imageView); //hangman graphic
 
-        logic.nulstil(); //reset on create
         update(); //update ui on create
     }
 

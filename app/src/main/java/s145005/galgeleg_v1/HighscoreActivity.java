@@ -13,7 +13,7 @@ import static s145005.galgeleg_v1.GameWonActivity.count_win;
 
 public class HighscoreActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView showTest;
+    TextView scoreView;
 
     Button re_turn;
 
@@ -24,7 +24,7 @@ public class HighscoreActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscore);
 
-       // showTest = (TextView) findViewById(R.id.showHighscoreTest);
+       scoreView = (TextView) findViewById(R.id.scoreView);
 
         re_turn = (Button) findViewById(R.id.returnButton);
         re_turn.setOnClickListener(this);
@@ -35,10 +35,10 @@ public class HighscoreActivity extends AppCompatActivity implements View.OnClick
         SharedPreferences sharedScore = PreferenceManager.getDefaultSharedPreferences(this);
 
         count_win = sharedScore.getInt("count_win", 0); //fetch count of wins
-        showTest.setText("Highscore: antal vundne ord: " + count_win + " (lifetime)"); //show count in a textview
+        scoreView.setText("Highscore: antal vundne ord: " + count_win + " (lifetime)"); //show count in a textview
 
         //TODO: add loses count and score count
-        //TODO: add af list
+        //TODO: add a list
         //TODO: add reset of score counts (maybe in settings)
     }
 
@@ -54,6 +54,6 @@ public class HighscoreActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onResume() { //resume counting wins - build in stuff
         super.onResume();
-        showTest.setText("Highscore: " + count_win);
+        scoreView.setText("Highscore: " + count_win);
     }
 }

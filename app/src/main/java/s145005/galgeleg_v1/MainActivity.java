@@ -1,9 +1,7 @@
 package s145005.galgeleg_v1;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,11 +15,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView textView;
 
     Button start;
-    Button rules;
+    Button wordlistButton;
     Button highscoreButton;
 
     Intent game;
     Intent highscore;
+    Intent wordlist;
 
     /**
      * Frederik von Scholten, s145005
@@ -61,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Buttons
         start = (Button) findViewById(R.id.startGameButton);
         start.setOnClickListener(this);
-        rules = (Button) findViewById(R.id.rulesButton);
-        rules.setOnClickListener(this);
+        wordlistButton = (Button) findViewById(R.id.wordListButton);
+        wordlistButton.setOnClickListener(this);
         highscoreButton = (Button) findViewById(R.id.higescoreButton);
         highscoreButton.setOnClickListener(this);
 
@@ -72,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Intents
         game = new Intent(MainActivity.this, GameActivity.class); //intent for starting game activity
         highscore = new Intent(MainActivity.this, HighscoreActivity.class); //intent for starting highscore activity
+        wordlist = new Intent(MainActivity.this, WordListActivity.class); //intent for starting word list activity
     }
 
     @Override
@@ -81,12 +81,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println("game activity startet");
             finish();
         }
-        else if (v == rules){ //a dialog box
+        else if (v == wordlistButton){ //a dialog box
+            /*
             AlertDialog.Builder rulesDialog = new AlertDialog.Builder(this);
             rulesDialog.setTitle("Regler");
             rulesDialog.setMessage("Hvad skal der være her?");
             rulesDialog.show();
-            System.out.println("showing rules dialog");
+            */
+            MainActivity.this.startActivity(wordlist);
+            System.out.println("showing wordlistButton");
         }
         else if (v == highscoreButton){ //starting highscore intent
             MainActivity.this.startActivity(highscore);
