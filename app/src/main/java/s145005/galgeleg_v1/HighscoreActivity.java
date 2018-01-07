@@ -24,7 +24,7 @@ public class HighscoreActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscore);
 
-        showTest = (TextView) findViewById(R.id.showHighscoreTest);
+       // showTest = (TextView) findViewById(R.id.showHighscoreTest);
 
         re_turn = (Button) findViewById(R.id.returnButton);
         re_turn.setOnClickListener(this);

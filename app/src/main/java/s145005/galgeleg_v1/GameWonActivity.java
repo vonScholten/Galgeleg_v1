@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.jinatonic.confetti.CommonConfetti;
+import com.github.jinatonic.confetti.ConfettiView;
+
 public class GameWonActivity extends AppCompatActivity implements View.OnClickListener {
 
     String word;
@@ -16,6 +19,8 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
     int score;
 
     public static int count_win;
+
+    ConfettiView confettiView
 
     TextView winnerText;
     TextView showAttemps;
@@ -56,6 +61,8 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
         //get the count of wins and add one
         count_win = sharedScore.getInt("count_win", 0) + 1;
         sharedScore.edit().putInt("count_win", count_win).commit(); //store: put and commit to pref.
+
+
     }
 
     @Override
