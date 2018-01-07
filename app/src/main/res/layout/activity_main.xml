@@ -20,12 +20,14 @@
 
     <Button
         android:id="@+id/startGameButton"
-        android:layout_width="216dp"
-        android:layout_height="77dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:background="@android:color/holo_green_light"
+        android:background="@drawable/button_shape"
+        android:drawableTop="@drawable/player"
+        android:drawableTint="@color/colorPrimaryDark"
         android:text="Spil"
         android:textSize="18sp"
         android:textStyle="bold"

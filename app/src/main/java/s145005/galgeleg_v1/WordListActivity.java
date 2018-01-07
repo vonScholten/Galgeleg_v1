@@ -28,10 +28,13 @@ public class WordListActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-        System.out.println("You have chosen wisely, you chose " + logic.getMuligeOrd().get(pos));
+        System.out.println("You chose wisely, you chose " + logic.getMuligeOrd().get(pos));
+
         logic.valgtOrd(pos);
 
         Intent start = new Intent(WordListActivity.this,GameActivity.class);
         this.startActivity(start);
+
+        finish();
     }
 }
