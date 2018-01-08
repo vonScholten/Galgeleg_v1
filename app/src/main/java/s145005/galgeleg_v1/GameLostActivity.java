@@ -17,7 +17,7 @@ public class GameLostActivity extends AppCompatActivity implements View.OnClickL
     TextView loserText;
     TextView word_lost;
 
-    Button re_turn;
+    Button back;
 
     Intent returnHome;
 
@@ -35,8 +35,8 @@ public class GameLostActivity extends AppCompatActivity implements View.OnClickL
         loserText = (TextView) findViewById(R.id.statusText);
         word_lost = (TextView) findViewById(R.id.showAttemps);
 
-        re_turn = (Button) findViewById(R.id.returnButton);
-        re_turn.setOnClickListener(this);
+        back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(this);
 
         returnHome = new Intent(GameLostActivity.this, MainActivity.class);
 
@@ -55,9 +55,11 @@ public class GameLostActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
 
-        if(v == re_turn) { //this is for returning to MainActivity
+        if(v == back) { //this is for returning to MainActivity
             GameLostActivity.this.startActivity(returnHome);
+            hyena.stop();
             System.out.println("return from GameLostActivity to MainActivity");
+            finish();
         }
 
     }

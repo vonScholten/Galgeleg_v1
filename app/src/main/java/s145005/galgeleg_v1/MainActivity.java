@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         highscoreButton.setOnClickListener(this);
 
         //switches
-        gamemode = (ToggleButton) findViewById(R.id.gamemode1);
+        gamemode = (ToggleButton) findViewById(R.id.gamemode);
 
         //TextViews
         textView = (TextView) findViewById(R.id.WelcomeText);
@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if (v == highscoreButton){ //starting highscore intent
             MainActivity.this.startActivity(highscore);
             System.out.println("highscore activity started");
-            finish();
         }
     }
 

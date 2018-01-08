@@ -24,7 +24,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     Button back;
     Button check;
-    Button newGame;
 
     String word;
     String used;
@@ -35,6 +34,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     Intent won;
     Intent lost;
+    Intent returnHome;
 
     long startTime;
     long elapsedTime;
@@ -49,13 +49,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //Intents
         won = new Intent(GameActivity.this, GameWonActivity.class); //intent for game won
         lost = new Intent(GameActivity.this, GameLostActivity.class); //intent for game lost
+        returnHome = new Intent(GameActivity.this, MainActivity.class);
 
         //buttons on click listener
         check = (Button) findViewById(R.id.checkButton); //check letter input
         check.setOnClickListener(this);
-        newGame = (Button) findViewById(R.id.NewGameButton); //start new game
-        newGame.setOnClickListener(this);
-        back = (Button) findViewById(R.id.back);
+        back = (Button) findViewById(R.id.back); //back to start new game
+        back.setOnClickListener(this);
 
         //text view/edit
         wordView = (TextView) findViewById(R.id.wordTextView); //word
@@ -67,25 +67,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         hangman = (ImageView) findViewById(R.id.imageView); //hangman graphic
 
         update(); //update ui on create
+
+        startTime = System.nanoTime(); //time
+        System.out.println(startTime + ": " + "new game started"); //logcat
     }
 
     @Override
     public void onClick(View v) {
 
-        if (v==back) {
-
-            finish();
-        }
-        else if (v == newGame){ //start new game
+        if (v == back){ //start new game
             logic.nulstil(); //reset everything and set a new word
             System.out.println(logic.getOrdet()); //info for cheating
 
-            update(); //update ui / graphics
-
-            startTime = System.nanoTime(); //for taking time
-
-            System.out.println(startTime + ": " + "new game started"); //log
+            GameActivity.this.startActivity(returnHome); //starting returnHome intent
+            finish();
         }
+
         else if (v == check){ //check if the letter input is part of the word
             word = input.getText().toString(); //input to a string
             logic.gætBogstav(word); //check input

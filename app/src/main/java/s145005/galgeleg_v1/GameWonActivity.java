@@ -38,9 +38,11 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
     TextView showAttemps;
     TextView showScore;
 
-    Button re_turn;
+    Button back;
+    Button highscoreButton;
 
     Intent returnHome;
+    Intent highscore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,7 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
 
         Bundle data = getIntent().getExtras(); //get bundle
 
-        if(data != null) { //if the bundle is not empty
+        if (data != null) { //if the bundle is not empty
             word = data.getString("word_win"); //get winning word with keyword
             attemps = data.getInt("attemps"); //get amount off attempts..
             score = data.getInt("score"); //get calculated score..
@@ -64,8 +66,10 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
         showAttemps = (TextView) findViewById(R.id.showAttemps);
         showScore = (TextView) findViewById(R.id.showScore);
 
-        re_turn = (Button) findViewById(R.id.returnButton);
-        re_turn.setOnClickListener(this);
+        back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(this);
+        highscoreButton = (Button) findViewById(R.id.highscoreWonButton);
+        highscoreButton.setOnClickListener(this);
 
         String attempsText = "Du brugte " + attemps + " forsøg";
         String scoreText = "Din score blev " + score;
@@ -74,6 +78,7 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
         showScore.setText(scoreText);
 
         returnHome = new Intent(GameWonActivity.this, MainActivity.class);
+        highscore = new Intent(GameWonActivity.this, HighscoreListActivity.class); //intent for starting highscore activity
 
         // Saving and fetching data with PreferenceManager
         SharedPreferences sharedScore = PreferenceManager.getDefaultSharedPreferences(this);
@@ -82,7 +87,7 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
         count_win = sharedScore.getInt("count_win", 0) + 1;
 
         //fetch and add highscores
-        Set<String> fetchSet = sharedScore.getStringSet("highscores",null);
+        Set<String> fetchSet = sharedScore.getStringSet("highscores", null);
         List<String> highscores = new ArrayList<String>();
 
         if (fetchSet != null) {
@@ -109,7 +114,7 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
                 .setFadeOutEnabled(true)
                 .setTimeToLive(10000L)
                 .addShapes(Shape.RECT, Shape.CIRCLE)
-                .addSizes(new Size(12,5f))
+                .addSizes(new Size(12, 5f))
                 .setPosition(-50f, konfetti.getWidth() + 50f, -50f, -50f)
                 .stream(300, 10000L);
 
@@ -118,15 +123,22 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
          * recorded by John Stracke
          */
 
-        fanfare = MediaPlayer.create(this,R.raw.triumphal_fanfare);
+        fanfare = MediaPlayer.create(this, R.raw.triumphal_fanfare);
         fanfare.start();
     }
 
     @Override
     public void onClick(View v) {
-        if(v == re_turn){ //this is for returning to MainActivity
+        if (v == back) { //this is for returning to MainActivity
             GameWonActivity.this.startActivity(returnHome);
+            fanfare.stop();
             finish();
         }
+        else if (v == highscoreButton) { //starting highscore intent
+            GameWonActivity.this.startActivity(highscore);
+            fanfare.stop();
+            finish();
+        }
+
     }
 }
