@@ -3,6 +3,7 @@ package s145005.galgeleg_v1;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
     public static int count_win;
 
     KonfettiView konfetti;
+
+    MediaPlayer fanfare;
 
     TextView winnerText;
     TextView showAttemps;
@@ -71,6 +74,10 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
         sharedScore.edit().putInt("count_win", count_win).commit(); //store: put and commit to pref.
 
 
+        /** Konfetti by DanielMartinus
+         * https://github.com/DanielMartinus/Konfetti
+         */
+
         konfetti.build()
                 .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
                 .setDirection(0.0, 0.359)
@@ -81,6 +88,14 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
                 .addSizes(new Size(12,5f))
                 .setPosition(-50f, konfetti.getWidth() + 50f, -50f, -50f)
                 .stream(300, 10000L);
+
+        /** triumphal_fanfare.mp3
+         * http://soundbible.com/1823-Winning-Triumphal-Fanfare.html
+         * recorded by John Stracke
+         */
+
+        fanfare = MediaPlayer.create(this,R.raw.triumphal_fanfare);
+        fanfare.start();
     }
 
     @Override

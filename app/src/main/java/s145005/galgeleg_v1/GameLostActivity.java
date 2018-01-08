@@ -1,6 +1,7 @@
 package s145005.galgeleg_v1;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 public class GameLostActivity extends AppCompatActivity implements View.OnClickListener {
 
     String word;
+
+    MediaPlayer hyena;
 
     TextView loserText;
     TextView word_lost;
@@ -38,6 +41,15 @@ public class GameLostActivity extends AppCompatActivity implements View.OnClickL
         returnHome = new Intent(GameLostActivity.this, MainActivity.class);
 
         word_lost.setText("Ordet var: " + word); //show word
+
+        /** hyena_laugh.mp3
+         * http://soundbible.com/2191-Hyena-Laughing.html
+         * recorded by Daniel Simion
+         */
+
+        hyena = MediaPlayer.create(this,R.raw.hyena_laugh);
+        hyena.start();
+
     }
 
     @Override
