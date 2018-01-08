@@ -22,7 +22,8 @@
         <activity android:name=".GameWonActivity" />
         <activity android:name=".GameLostActivity" />
         <activity android:name=".HighscoreActivity" />
-        <activity android:name=".WordListActivity"></activity>
+        <activity android:name=".WordListActivity" />
+        <activity android:name=".HighscoreListActivity"></activity>
     </application>
 
 </manifest>

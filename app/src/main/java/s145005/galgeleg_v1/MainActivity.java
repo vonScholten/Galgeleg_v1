@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Intents
         game = new Intent(MainActivity.this, GameActivity.class); //intent for starting game activity
-        highscore = new Intent(MainActivity.this, HighscoreActivity.class); //intent for starting highscore activity
+        highscore = new Intent(MainActivity.this, HighscoreListActivity.class); //intent for starting highscore activity
         wordlist = new Intent(MainActivity.this, WordListActivity.class); //intent for starting word list activity
     }
 

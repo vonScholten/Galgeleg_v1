@@ -7,6 +7,18 @@
     android:background="@android:color/background_light"
     tools:context="s145005.galgeleg_v1.GameActivity">
 
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@mipmap/back"
+        android:text="@string/home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="102dp"
@@ -96,4 +108,5 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usedLettersView" />
+
 </android.support.constraint.ConstraintLayout>

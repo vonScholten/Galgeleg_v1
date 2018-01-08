@@ -1,8 +1,6 @@
 package s145005.galgeleg_v1;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -24,12 +22,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     EditText input;
 
+    Button back;
     Button check;
     Button newGame;
 
     String word;
     String used;
+    String wordWon;
+
     int score;
+    int attemps;
 
     Intent won;
     Intent lost;
@@ -53,6 +55,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         check.setOnClickListener(this);
         newGame = (Button) findViewById(R.id.NewGameButton); //start new game
         newGame.setOnClickListener(this);
+        back = (Button) findViewById(R.id.back);
 
         //text view/edit
         wordView = (TextView) findViewById(R.id.wordTextView); //word
@@ -69,7 +72,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        if (v == newGame){ //start new game
+        if (v==back) {
+
+            finish();
+        }
+        else if (v == newGame){ //start new game
             logic.nulstil(); //reset everything and set a new word
             System.out.println(logic.getOrdet()); //info for cheating
 
@@ -93,6 +100,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             System.out.println("checking input done");
         }
+
     }
 
     public void update(){ //updates the user interface
@@ -144,11 +152,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         String log_won = "game won \n" + "word: " + logic.getOrdet() + "\n" + "score: " + score;
         System.out.println(log_won);
 
+        wordWon = logic.getOrdet();
+        attemps = logic.getBrugteBogstaver().size();
         score = logic.getOrdet().length() - logic.getAntalForkerteBogstaver(); //calculate score
+        System.out.println(wordWon + ", " + attemps + ", " + score);
 
         //store in intents bundle for use in GameWonActivity
         won.putExtra("word_win", logic.getOrdet());
-        won.putExtra("attemps", logic.getBrugteBogstaver().size());
+        won.putExtra("attemps", attemps);
         won.putExtra("score", score);
 
         GameActivity.this.startActivity(won); //starting won intent

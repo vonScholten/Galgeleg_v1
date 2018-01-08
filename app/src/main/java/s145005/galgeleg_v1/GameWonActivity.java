@@ -11,6 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
@@ -19,6 +24,7 @@ import nl.dionsegijn.konfetti.models.Size;
 public class GameWonActivity extends AppCompatActivity implements View.OnClickListener {
 
     String word;
+
     int attemps;
     int score;
 
@@ -44,10 +50,13 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
         Bundle data = getIntent().getExtras(); //get bundle
 
         if(data != null) { //if the bundle is not empty
-            word = data.getString("word_won"); //get winning word with keyword
+            word = data.getString("word_win"); //get winning word with keyword
             attemps = data.getInt("attemps"); //get amount off attempts..
             score = data.getInt("score"); //get calculated score..
+            System.out.println(word + ", " + attemps + ", " + score);
         }
+
+        System.out.println(word + ", " + attemps + ", " + score);
 
         konfetti = (KonfettiView) findViewById(R.id.konfetti);
 
@@ -71,8 +80,23 @@ public class GameWonActivity extends AppCompatActivity implements View.OnClickLi
 
         //get the count of wins and add one
         count_win = sharedScore.getInt("count_win", 0) + 1;
-        sharedScore.edit().putInt("count_win", count_win).commit(); //store: put and commit to pref.
 
+        //fetch and add highscores
+        Set<String> fetchSet = sharedScore.getStringSet("highscores",null);
+        List<String> highscores = new ArrayList<String>();
+
+        if (fetchSet != null) {
+            highscores.addAll(fetchSet);
+        }
+
+        String highscoreText = "Ordet: " + word + " - Score: " + score + " point";
+        System.out.println(highscoreText);
+        highscores.add(highscoreText);
+        Set<String> set = new HashSet<String>(highscores);
+
+        //store: put and commit to pref.
+        sharedScore.edit().putInt("count_win", count_win).commit();
+        sharedScore.edit().putStringSet("highscores", set).commit();
 
         /** Konfetti by DanielMartinus
          * https://github.com/DanielMartinus/Konfetti
